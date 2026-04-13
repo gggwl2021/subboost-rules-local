@@ -123,25 +123,7 @@ def merge_rules() -> dict[str, list[str]]:
         normalized = normalize_rule(rule)
         if not normalized:
             continue
-        lower = normalized.split(":", 1)[1].lower()
         merged["category-ai-chat-!cn"].add(normalized)
-        if any(key in lower for key in (
-            "openai",
-            "chatgpt",
-            "oaistatic",
-            "oaiusercontent",
-            "arkoselabs",
-            "browser-intake-datadoghq.com",
-            "ingest.sentry.io",
-            "livekit",
-        )):
-            merged["openai"].add(normalized)
-        if any(key in lower for key in ("anthropic", "claude", "usefathom")):
-            merged["anthropic"].add(normalized)
-
-    merged["openai"].add("full:browser-intake-datadoghq.com")
-    merged["openai"].add("full:o33249.ingest.sentry.io")
-    merged["anthropic"].add("full:cdn.usefathom.com")
 
     return {name: sorted(values) for name, values in merged.items()}
 
